@@ -1,7 +1,7 @@
 public class MediaDetails
 {
-    public required int ReleaseYear { get; set; }
-    public required double Runtime { get; set; }
+    public int ReleaseYear { get; set; }
+    public double Runtime { get; set; }
     public string? Director { get; set; }
     public List<string>? Writers { get; set; }
     public List<string>? Actors { get; set; }
