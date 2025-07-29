@@ -21,9 +21,9 @@ public class MediaController : ControllerBase
     {
         _context = context;
 
-        if (_context.MediaDB.Any())
+        if (!_context.Media.Any())
         {
-            _context.MediaDB.AddRange(mediaModel);
+            _context.Media.AddRange(mediaModel);
             _context.SaveChanges(); // saves the changes to the Database
         }
     }
@@ -37,11 +37,12 @@ public class MediaController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<MediaModel>> Get()
     {
-        return Ok(_context.MediaDB.ToList());
+        var media = _context.Media.Include(m => m.Details).ToList();
+        return Ok(media);
     }
 
 
-    [HttpPost("update-table")]
+    [HttpPost]
     public IActionResult UpdateMediaContent([FromBody] MediaCreateDTO dto)
     {
         if (!ModelState.IsValid)
@@ -57,10 +58,12 @@ public class MediaController : ControllerBase
             TypeOfMedia = dto.TypeOfMedia,
             Title = dto.Title,
             Genre = dto.Genre,
-            Details = dto.Details
+            Details = dto.Details,
+            ParentalGuidanceRating = dto.ParentalGuidanceRating
         };
 
-        _context.MediaDB.Add(newMedia);
+        _context.Media.Add(newMedia);
+        _context.SaveChanges();
 
         return CreatedAtAction(nameof(Get), new { id = newID }, newMedia);
     }

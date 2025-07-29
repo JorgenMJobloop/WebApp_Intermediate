@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-
 public class MediaModel
 {
     /// <summary>
