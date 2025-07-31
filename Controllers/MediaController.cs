@@ -41,6 +41,21 @@ public class MediaController : ControllerBase
         return Ok(media);
     }
 
+    [HttpGet("{id}")]
+    public ActionResult<MediaModel> GetMediaByID(int id)
+    {
+        var media = _context.Media.Find(id);
+
+        if (media != null)
+        {
+            return Ok(media);
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
+
 
     [HttpPost]
     public IActionResult UpdateMediaContent([FromBody] MediaCreateDTO dto)
